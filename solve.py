@@ -36,7 +36,7 @@ class Day1(Day):
                     found = True
                     break
                 else:
-                    print(freq)
+#                    print(freq)
                     freq_set.add(freq)
         print("Day1 challenge2: {}".format(freq)) 
 
@@ -83,6 +83,54 @@ class Day2(Day):
 
         print("Day2 challenge2: {}".format(match if match else 'Oops'))
     
+class Day3(Day):
+    def __init__(self):
+        Day.__init__(self,3)
+
+    def solve1(self):
+        claim_re=re.compile("^#(?P<id>[0-9]+)\s*@\s*(?P<x>[0-9]+),(?P<y>[0-9]+):\s*(?P<xlen>[0-9]+)x(?P<ylen>[0-9]+)")
+        fabric=set([])
+        double_claims=set([])
+        for line in self.data:
+            m=claim_re.match(line)
+            if m:
+                x_start = int(m.group('x'))
+                x_end   = int(m.group('xlen'))+x_start 
+                y_start = int(m.group('y'))
+                y_end   = int(m.group('ylen'))+y_start 
+                for y in range(y_start,y_end):
+                    for x in range(x_start,x_end):
+                        pos=(x,y)
+                        if pos in fabric:
+                            double_claims.add(pos)
+                        fabric.add(pos)
+                
+        print("Day3 challenge1: {}".format(len(double_claims)))
+
+    def solve2(self):
+        claim_re=re.compile("^#(?P<id>[0-9]+)\s*@\s*(?P<x>[0-9]+),(?P<y>[0-9]+):\s*(?P<xlen>[0-9]+)x(?P<ylen>[0-9]+)")
+        none_overlap_id=set()
+        pos2id={}
+        for line in self.data:
+            m=claim_re.match(line)
+            if m:
+                x_start = int(m.group('x'))
+                x_end   = int(m.group('xlen'))+x_start 
+                y_start = int(m.group('y'))
+                y_end   = int(m.group('ylen'))+y_start 
+                ID      = m.group('id')
+                overlap = False
+                for y in range(y_start,y_end):
+                    for x in range(x_start,x_end):
+                        pos=(x,y)
+                        if pos in pos2id:
+                            none_overlap_id.discard(pos2id[pos])
+                            overlap = True
+                        pos2id[pos]=ID
+                if not overlap:
+                    none_overlap_id.add(ID)
+        print("Day3 challenge2: {} (length {})".format(none_overlap_id.pop(),len(none_overlap_id)))
+
 def main(args):
     
     parser = argparse.ArgumentParser(
