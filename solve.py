@@ -144,9 +144,16 @@ class Day5(Day):
         Day.__init__(self,5)
     def solve1(self):
         result=[]
-        for ch in "dabAcCaCBAcCcaDA":
-            
-            print("Day5 challlenge1: {}".format(''))
+        for ch in self.data[0][:-1]:
+            if len(result) == 0:
+                result.append(ch)
+            else:
+                if abs(ord(ch)-ord(result[-1])) == 32:
+                    result.pop()
+                else:
+                    result.append(ch)
+
+        print("Day5 challlenge1: {}".format(len(result)))
     def solve2(self):
         print("Day5 challlenge2: {}".format(''))
 
