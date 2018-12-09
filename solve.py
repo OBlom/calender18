@@ -131,12 +131,96 @@ class Day3(Day):
                     none_overlap_id.add(ID)
         print("Day3 challenge2: {} (length {})".format(none_overlap_id.pop(),len(none_overlap_id)))
 
+class Day4(Day):
+    def __init__(self):
+        Day.__init__(self,4)
+    def solve1(self):
+        print("Day4 challlenge1: {}".format(''))
+    def solve2(self):
+        print("Day4 challlenge2: {}".format(''))
+
+class Day5(Day):
+    def __init__(self):
+        Day.__init__(self,5)
+    def solve1(self):
+        result=[]
+        for ch in "dabAcCaCBAcCcaDA":
+            
+            print("Day5 challlenge1: {}".format(''))
+    def solve2(self):
+        print("Day5 challlenge2: {}".format(''))
+
+class Day6(Day):
+    def __init__(self):
+        Day.__init__(self,6)
+    def solve1(self):
+        print("Day6 challlenge1: {}".format(''))
+    def solve2(self):
+        print("Day6 challlenge2: {}".format(''))
+
+class Day7(Day):
+    def __init__(self):
+        Day.__init__(self,7)
+    def solve1(self):
+        print("Day7 challlenge1: {}".format(''))
+    def solve2(self):
+        print("Day7 challlenge2: {}".format(''))
+
+class Day8(Day):
+    def __init__(self):
+        Day.__init__(self,8)
+    def solve1(self):
+        print("Day8 challlenge1: {}".format(''))
+    def solve2(self):
+        print("Day8 challlenge2: {}".format(''))
+
+class Day9(Day):
+    def __init__(self):
+        Day.__init__(self,9)
+    def solve(self,challenge):
+        m = re.match("(?P<players>[0-9]+)\splayers.*worth\s(?P<last_marble>[0-9]+)\spoints",self.data[0])#"30 players worth 5807 points")
+        if m:
+            players = int(m.group('players'))
+            last_marble = int(m.group('last_marble')) * (1 if challenge == 1 else 2)
+            circle=[0]
+            current_pos=0
+            player_points={}
+            for i in range(0,last_marble):
+                marble=i+1
+                player=(i % players) +1
+                if marble%23 == 0:
+                    current_pos = (current_pos - 7) % len(circle)
+                    points = circle.pop(current_pos)+marble
+                    player_points[player]=player_points.setdefault(player,0)+points
+                else:    
+                    current_pos = current_pos + 2
+                    if current_pos > len(circle):
+                        current_pos = 1
+                    circle.insert(current_pos,marble)
+            high_score=0
+            for player,score in player_points.items():
+                if score > high_score:
+                    high_score = score
+        print("Day9 challlenge{}: {}".format(challenge,high_score))
+    def solve1(self):
+        self.solve(1)
+    def solve2(self):
+        self.solve(2)
+
+class Day10(Day):
+    def __init__(self):
+        Day.__init__(self,10)
+    def solve1(self):
+        print("Day10 challlenge1: {}".format(''))
+    def solve2(self):
+        print("Day10 challlenge2: {}".format(''))
+
 def main(args):
     
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('day', metavar='DAY', type=int, choices=range(1,8), help="day to solve")
+    parser.add_argument('day', metavar='DAY', type=int, choices=range(1,25), help="day to solve")
     parser.add_argument('challenge', metavar='CHALLENGE', type=int, choices=range(1,3), help="challenge to solve")
     args = parser.parse_args(args)
     
