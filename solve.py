@@ -155,7 +155,25 @@ class Day5(Day):
 
         print("Day5 challlenge1: {}".format(len(result)))
     def solve2(self):
-        print("Day5 challlenge2: {}".format(''))
+        best_result=len(self.data[0])
+        upper_diff=ord('A')-ord('a')
+        for i in range(ord('a'),ord('z')):
+            remove_lower = chr(i)
+            remove_upper = chr(upper_diff+i)
+            result=[]
+            for ch in self.data[0][:-1]:
+                if ch == remove_lower or ch == remove_upper:
+                    continue
+                if len(result) == 0:
+                    result.append(ch)
+                else:
+                    if abs(ord(ch)-ord(result[-1])) == 32:
+                        result.pop()
+                    else:
+                        result.append(ch)
+            if len(result) < best_result:
+                best_result = len(result)
+        print("Day5 challlenge2: {}".format(best_result))
 
 class Day6(Day):
     def __init__(self):
@@ -188,7 +206,7 @@ class Day9(Day):
         m = re.match("(?P<players>[0-9]+)\splayers.*worth\s(?P<last_marble>[0-9]+)\spoints",self.data[0])#"30 players worth 5807 points")
         if m:
             players = int(m.group('players'))
-            last_marble = int(m.group('last_marble')) * (1 if challenge == 1 else 2)
+            last_marble = int(m.group('last_marble')) * (1 if challenge == 1 else 100)
             circle=[0]
             current_pos=0
             player_points={}
